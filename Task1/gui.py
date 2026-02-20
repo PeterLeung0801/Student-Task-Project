@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import ttk, messagebox
 from datetime import datetime
 from models.task import Task
 from models.priority_task import PriorityTask
@@ -63,33 +63,61 @@ def save_tasks():
     file_handler.save(manager.get_all_tasks())
     messagebox.showinfo("Saved", "Tasks saved successfully!")
 
+# ----------------- UI -----------------
+
 root = tk.Tk()
 root.title("Student Task Management System")
+root.geometry("750x500")
+root.configure(bg="#f5f5f5")
 
-tk.Label(root, text="Task ID").pack()
-entry_id = tk.Entry(root)
-entry_id.pack()
+title = tk.Label(root, text="Student Task Management System",
+                 font=("Arial", 18, "bold"), bg="#f5f5f5")
+title.pack(pady=15)
 
-tk.Label(root, text="Task Name").pack()
-entry_name = tk.Entry(root)
-entry_name.pack()
+main_frame = ttk.Frame(root, padding=15)
+main_frame.pack(fill="both", expand=True)
 
-tk.Label(root, text="Deadline (YYYY-MM-DD)").pack()
-entry_deadline = tk.Entry(root)
-entry_deadline.pack()
+# Input Section
+input_frame = ttk.LabelFrame(main_frame, text="Add New Task", padding=10)
+input_frame.grid(row=0, column=0, sticky="ew", pady=10)
 
-tk.Label(root, text="Priority (Optional)").pack()
-entry_priority = tk.Entry(root)
-entry_priority.pack()
+ttk.Label(input_frame, text="Task ID").grid(row=0, column=0, padx=5, pady=5)
+entry_id = ttk.Entry(input_frame)
+entry_id.grid(row=0, column=1, padx=5, pady=5)
 
-tk.Button(root, text="Add Task", command=add_task).pack()
-tk.Button(root, text="Mark Completed", command=mark_completed).pack()
-tk.Button(root, text="Delete Task", command=delete_task).pack()
-tk.Button(root, text="Save", command=save_tasks).pack()
+ttk.Label(input_frame, text="Task Name").grid(row=1, column=0, padx=5, pady=5)
+entry_name = ttk.Entry(input_frame, width=30)
+entry_name.grid(row=1, column=1, padx=5, pady=5)
 
-listbox = tk.Listbox(root, width=80)
-listbox.pack()
+ttk.Label(input_frame, text="Deadline (YYYY-MM-DD)").grid(row=2, column=0, padx=5, pady=5)
+entry_deadline = ttk.Entry(input_frame)
+entry_deadline.grid(row=2, column=1, padx=5, pady=5)
+
+ttk.Label(input_frame, text="Priority (Optional)").grid(row=3, column=0, padx=5, pady=5)
+entry_priority = ttk.Entry(input_frame)
+entry_priority.grid(row=3, column=1, padx=5, pady=5)
+
+ttk.Button(input_frame, text="Add Task", command=add_task)\
+    .grid(row=4, column=0, columnspan=2, pady=10)
+
+# Task List Section
+list_frame = ttk.LabelFrame(main_frame, text="Task List", padding=10)
+list_frame.grid(row=1, column=0, sticky="nsew")
+
+listbox = tk.Listbox(list_frame, width=90, height=10)
+listbox.pack(pady=5)
+
+button_frame = ttk.Frame(list_frame)
+button_frame.pack(pady=5)
+
+ttk.Button(button_frame, text="Mark Completed", command=mark_completed)\
+    .grid(row=0, column=0, padx=5)
+
+ttk.Button(button_frame, text="Delete Task", command=delete_task)\
+    .grid(row=0, column=1, padx=5)
+
+ttk.Button(button_frame, text="Save Tasks", command=save_tasks)\
+    .grid(row=0, column=2, padx=5)
 
 refresh_list()
-
 root.mainloop()

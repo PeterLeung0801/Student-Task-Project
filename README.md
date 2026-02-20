@@ -52,11 +52,14 @@ Time Complexity:
 
 ## How to Run
 
+### GUI
+python Task1/gui.py
+
 ### Task 1
-```bash
 cd Task1
 python main.py
 
+### Task 2
 cd Task2
 python heap_sort.py
 
